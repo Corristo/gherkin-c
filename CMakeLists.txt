@@ -91,6 +91,8 @@ add_executable(gherkin_generate_tokens
     )
 target_link_libraries(gherkin_generate_tokens PRIVATE gherkin)
 
+include(CTest)
+enable_testing()
 
 file(GLOB GOOD_FEATURE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/good/*.feature
@@ -98,16 +100,15 @@ file(GLOB GOOD_FEATURE_FILES
 file(GLOB BAD_FEATURE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/bad/*.feature
         )
-add_custom_target(invo DEPENDS invo)
-add_dependencies(invo gherkinexe)
-FOREACH(ENTITY ${GOOD_FEATURE_FILES})
-    add_custom_command(
-            TARGET gherkinexe
-            POST_BUILD
-            COMMAND gherkinexe  ${ENTITY}
-            DEPENDS invo
+
+foreach(ENTITY ${GOOD_FEATURE_FILES})
+    get_filename_component(TEST_NAME ${ENTITY} NAME_WE)
+    add_test(
+        NAME ${TEST_NAME}
+        COMMAND $<TARGET_FILE:gherkinexe> ${ENTITY}
     )
-ENDFOREACH()
+endforeach()
+
 ############ Installation section ############
 set(include_install_dir "include")
 set(lib_install_dir "lib/")
