@@ -1,9 +1,9 @@
 PROJECT(gherkin C)
 cmake_minimum_required(VERSION 3.0)
-# Install library & headers in your directory
-#SET(CMAKE_INSTALL_PREFIX  "")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-LIST(APPEND GHERKIN_SRS
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+add_library(gherkin
         src/file_reader.c
         src/file_utf8_source.c
         src/print_utilities.c
@@ -54,20 +54,13 @@ LIST(APPEND GHERKIN_SRS
         src/source_event.c
         src/ast_printer.c
         src/pickle_printer.c
-        )
+    )
 
-LIST(APPEND GENERATE_TOKEN
-        src/token_formatter_builder.c
-        src/gherkin_generate_tokens.c
-        )
-LIST(APPEND GHERKIN_CLI
-        src/gherkin_cli.c
-        )
-
-
-add_library(gherkin ${GHERKIN_SRS})
-target_include_directories(gherkin PUBLIC
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/src>")
+target_include_directories(gherkin
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    )
 
 include(CheckSymbolExists)
 
@@ -82,12 +75,22 @@ if(NOT RES)
   endif()
 endif()
 
-add_executable(gherkinexe ${GHERKIN_CLI})
-target_link_libraries(gherkinexe gherkin)
-target_include_directories(gherkinexe PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_executable(gherkinexe
+        src/gherkin_cli.c
+    )
+target_link_libraries(gherkinexe PRIVATE gherkin)
+target_include_directories(gherkinexe
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+    )
 
-add_executable(gherkin_generate_tokens ${GENERATE_TOKEN})
-target_link_libraries(gherkin_generate_tokens gherkin)
+add_executable(gherkin_generate_tokens
+        src/token_formatter_builder.c
+        src/gherkin_generate_tokens.c
+    )
+target_link_libraries(gherkin_generate_tokens PRIVATE gherkin)
+
 
 file(GLOB GOOD_FEATURE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/good/*.feature
