@@ -122,7 +122,8 @@ int Compiler_compile(Compiler* compiler, const GherkinDocument* gherkin_document
         }
     }
 
-    for (int m = 0; m < feature->rules->rule_count; ++m) {
+    int m;
+    for (m = 0; m < feature->rules->rule_count; ++m) {
         int rule_background_step_count = 0;
         const Steps* rule_background_steps = 0;
 

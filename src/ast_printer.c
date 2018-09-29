@@ -274,7 +274,8 @@ void print_rule(FILE* file, const Rule* rule)
 
 void print_rules(FILE* file, const Rules* rules)
 {
-    for (int i = 0; i < rules->rule_count; ++i)
+    int i;
+    for (i = 0; i < rules->rule_count; ++i)
     {
         if (i > 0)
             fprintf(file, ",");
