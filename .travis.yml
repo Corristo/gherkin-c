@@ -6,55 +6,55 @@ sudo: false
 matrix:
   include:
     # Clang 3.5
-    - env: COMPILER=clang-3.5
+    - env: COMPILER=clang-3.5 WARNING_FLAGS="-Weverything"
       addons: { apt: { packages: ["clang-3.5", "cmake"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.5"] } }
 
     # Clang 3.6
-    - env: COMPILER=clang-3.6
+    - env: COMPILER=clang-3.6 WARNING_FLAGS="-Weverything"
       addons: { apt: { packages: ["clang-3.6", "cmake"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.6"] } }
 
     # Clang 3.7
-    - env: COMPILER=clang-3.7
+    - env: COMPILER=clang-3.7 WARNING_FLAGS="-Weverything"
       addons: { apt: { packages: ["clang-3.7", "cmake"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.7"] } }
 
     # Clang 3.8
-    - env: COMPILER=clang-3.8
+    - env: COMPILER=clang-3.8 WARNING_FLAGS="-Weverything"
       addons: { apt: { packages: ["clang-3.8", "cmake"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.8"] } }
 
     # Clang 3.9
-    - env: COMPILER=clang-3.9
+    - env: COMPILER=clang-3.9 WARNING_FLAGS="-Weverything"
       addons: { apt: { packages: ["clang-3.9", "cmake"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-3.9"] } }
 
     # Clang 4.0
-    - env: COMPILER=clang-4.0
+    - env: COMPILER=clang-4.0 WARNING_FLAGS="-Weverything"
       addons: { apt: { packages: ["clang-4.0", "cmake"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-4.0"] } }
 
     # Clang 5.0
-    - env: COMPILER=clang-5.0
+    - env: COMPILER=clang-5.0 WARNING_FLAGS="-Weverything"
       addons: { apt: { packages: ["clang-5.0", "cmake"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-5.0"] } }
       
     # Clang 6.0
-    - env: COMPILER=clang-6.0
+    - env: COMPILER=clang-6.0 WARNING_FLAGS="-Weverything"
       addons: { apt: { packages: ["clang-6.0", "cmake"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-6.0"] } }
      
     # GCC 4.8
-    - env: COMPILER=gcc
+    - env: COMPILER=gcc WARNING_FLAGS="-Wall -Wextra"
       addons: { apt: { packages: ["cmake"], sources: [] } }
       
     # GCC 5
-    - env: COMPILER=gcc-5
+    - env: COMPILER=gcc-5 WARNING_FLAGS="-Wall -Wextra"
       addons: { apt: { packages: ["gcc-5", "cmake"], sources: ["ubuntu-toolchain-r-test"] } }
       
     # GCC 6
-    - env: COMPILER=gcc-6
+    - env: COMPILER=gcc-6 WARNING_FLAGS="-Wall -Wextra"
       addons: { apt: { packages: ["gcc-6", "cmake"], sources: ["ubuntu-toolchain-r-test"] } }
 
     # GCC 7
-    - env: COMPILER=gcc-7
+    - env: COMPILER=gcc-7 WARNING_FLAGS="-Wall -Wextra"
       addons: { apt: { packages: ["gcc-7", "cmake"], sources: ["ubuntu-toolchain-r-test"] } }
       
     # GCC 8
-    - env: COMPILER=gcc-8
+    - env: COMPILER=gcc-8 WARNING_FLAGS="-Wall -Wextra"
       addons: { apt: { packages: ["gcc-8", "cmake"], sources: ["ubuntu-toolchain-r-test"] } }
 
 install:
@@ -63,7 +63,7 @@ install:
 
 before_script:
   # Set up the build directory
-  - cmake -Bbuild -H. -DCMAKE_C_COMPILER=${COMPILER}
+  - cmake -Bbuild -H. -DCMAKE_C_COMPILER=${COMPILER} -DCMAKE_C_FLAGS=${WARNING_FLAGS}
 
 
 script:
