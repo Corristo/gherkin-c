@@ -120,7 +120,7 @@ int @(Model.ParserClassName)_parse(@Model.ParserClassName* parser, TokenMatcher*
     }
 
     int result_code = ErrorList_is_empty(context->errors) ? 0 : 1;
-    
+
     ParserContext_delete(context);
     TokenQueue_delete(token_queue);
     return result_code;
@@ -153,7 +153,7 @@ static void handle_ast_error(ParserContext* context, RuleType rule_type, rule_fu
     jmp_buf env;
     int val = setjmp(env);
     ErrorList_set_local_rescue_env(context->errors, &env);
-    if (val == 0) {    
+    if (val == 0) {
         action(context->builder, rule_type);
     }
 }
@@ -174,7 +174,7 @@ static bool handle_external_error(ParserContext* context, Token* token, match_fu
     jmp_buf env;
     int val = setjmp(env);
     ErrorList_set_local_rescue_env(context->errors, &env);
-    if (val == 0) {    
+    if (val == 0) {
         return action(context->token_matcher, token);
     }
     return false;
@@ -211,7 +211,7 @@ static bool lookahead_@(lookAheadHint.Id)(ParserContext* context) {
 
         if (!(@foreach(var tokenType in lookAheadHint.Skip) {<text>@MatchToken(tokenType) || </text>}false)) {
             break;
-        } 
+        }
     }
 
     TokenQueue_extend(context->token_queue, queue);

@@ -47,7 +47,7 @@ void Rule_delete(Rule const* rule)
     free((void*)rule);
 }
 
-void Rules_delete(Rules const* rules) 
+void Rules_delete(Rules const* rules)
 {
     if (rules->rule_count > 0) {
         int i;
@@ -57,6 +57,6 @@ void Rules_delete(Rules const* rules)
         }
         free((void*)rules->rules);
     }
-    
+
     free((void*)rules);
 }
