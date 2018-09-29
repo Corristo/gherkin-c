@@ -21,6 +21,8 @@ static const wchar_t* ast_item_type_to_string(GherkinAstType type) {
         return L"Background";
     case Gherkin_Scenario:
         return L"Scenario";
+    case Gherkin_Rule:
+        return L"Rule";
     case Gherkin_Step:
         return L"Step";
     case Gherkin_DataTable:
